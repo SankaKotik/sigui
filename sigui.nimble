@@ -1,4 +1,4 @@
-version       = "0.2.4"
+version       = "0.2.5"
 author        = "levovix0"
 description   = "Flexieble gui framework"
 license       = "MIT"
@@ -9,7 +9,7 @@ requires "fusion"  # to write macros using pattern matching
 requires "siwin >= 1.0.1"  # to make window
 
 requires "bumpy"  # for rects
-requires "https://github.com/levovix0/rice#8bd50bd0"  # for graphics
+requires "https://github.com/levovix0/rice >= 0.1.1"  # for graphics
   # imples: requires "opengl"  # for graphics
   # imples: requires "shady"  # for writing shaders in Nim istead of GLSL
   # imples: requires "pixie"  # for complex paths (like text and svg) rendering
