@@ -21,7 +21,7 @@ type
     antialiasing*: Property[bool] = true.property
     
     changed: bool
-    meshes: seq[Mesh]
+    mesh: Mesh
     offset: Vec2
     aafb: AntialiasedFramebuffer
 
@@ -36,7 +36,7 @@ registerComponent UiPath
 
 
 proc updateMesh(this: UiPath, ctx: DrawContext) =
-  this.meshes = @[]
+  this.mesh = Mesh()
   if this.path[] == nil: return
 
   let bounds = this.path[].computeBounds(this.transform[])
@@ -59,9 +59,9 @@ proc updateMesh(this: UiPath, ctx: DrawContext) =
   
   case this.kind[]
   of StrokePath:
-    this.meshes = this.path[].toStrokeMeshes(this.strokeWidth[], this.lineCap[], this.lineJoin[])
+    this.mesh = this.path[].toStrokeMesh(this.strokeWidth[], this.lineCap[], this.lineJoin[])
   of FillPath:
-    this.meshes = this.path[].toMeshes()
+    this.mesh = this.path[].toMesh()
 
 
 method recieve*(this: UiPath, signal: Signal) =
@@ -96,7 +96,7 @@ method draw*(this: UiPath, ctx: DrawContext) =
         translate(-1, -1) *
         scale(2/this.aafb.size.x.float32, 2/this.aafb.size.y.float32) *
         translate(vec3((if this.antialiasing[]: -this.offset else: vec2()), 0))
-      ctx.drawWithSolidColor(this.meshes, this.color, transform)
+      ctx.fill2dMeshFlat(this.mesh, this.color, transform)
       ctx.viewportToGlMatrix = prevM
       
       if this.antialiasing[]:

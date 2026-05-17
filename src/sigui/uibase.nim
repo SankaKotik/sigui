@@ -1,7 +1,7 @@
 import std/[tables, macros, sequtils]
 import pkg/[vmath, bumpy, chroma]
 import pkg/pixie/fileformats/[svg], pkg/pixie/[fonts, images]
-import pkg/rice/[gl, contexts, primitivesAA, transform, texts]
+import pkg/rice/[gl, contexts, primitivesAA, transform, rasterTexts]
 import ./[events, properties, uiobjOnly, uiobjMacros, window, windowCreation]
 
 export vmath, bumpy, gl, contexts, chroma, fonts, images, tables
@@ -291,7 +291,7 @@ method draw*(text: UiText, ctx: DrawContext) =
       text.xy.posToGlobal(text.parent) + ctx.offset
 
   if text.visibility[] == visible:
-    ctx.drawText(pos.vec3(0), text.arrangement[], text.color.vec4, origin=vec2(0, 0))
+    ctx.drawRasterText(pos.vec3(0), text.arrangement[], text.color.vec4, origin=vec2(0, 0))
   text.drawAfter(ctx)
 
 
